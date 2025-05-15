@@ -1,0 +1,115 @@
+/** @format */
+
+import { useEffect, useState } from "react";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
+import LayoutOne from "./layout/LayoutOne";
+import ProjectList from "./components/ProjectList";
+import ProjectDetail from "./components/ProjectDetail";
+import AddProject from "./components/AddProject";
+import EditProject from "./components/EditProject";
+import Profile from "./components/Profile";
+import EditProfile from "./components/EditProfile";
+import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import PrivateRoute from "./components/PrivateRoute";
+import ChangePassword from "./components/ChangePassword";
+
+const App = () => {
+	const [user, setUser] = useState(() => {
+		const storedUser = localStorage.getItem("user");
+		return storedUser ? JSON.parse(storedUser) : null;
+	});
+
+	const [projects, setProjects] = useState([]);
+
+	useEffect(() => {
+		const fetchProjects = async () => {
+			if (!user || !user.id) return;
+
+			try {
+				const res = await fetch(
+					`http://localhost:5001/api/projects/${user.id}`
+				);
+				const data = await res.json();
+				setProjects(data);
+			} catch (error) {
+				console.error("Failed to fetch projects:", error);
+			}
+		};
+
+		fetchProjects();
+	}, [user]);
+
+	const updateUser = (newUser) => {
+		setUser(newUser);
+		localStorage.setItem("user", JSON.stringify(newUser));
+	};
+
+	const handleDeleteProject = async (projectId) => {
+		try {
+			const res = await fetch(
+				`http://localhost:5001/api/projects/${projectId}`,
+				{
+					method: "DELETE",
+				}
+			);
+			if (!res.ok) throw new Error("Delete failed");
+
+			alert("Project deleted successfully!");
+			setProjects((prev) => prev.filter((p) => p.id !== projectId));
+			window.location.href = "/projects";
+		} catch (err) {
+			console.error("Failed to delete project:", err);
+			alert("Error deleting project");
+		}
+	};
+
+	return (
+		<Router>
+			<Routes>
+				<Route path="/login" element={<Login setUser={setUser} />} />
+				<Route path="/register" element={<Register setUser={setUser} />} />
+
+				<Route
+					path="/"
+					element={
+						<PrivateRoute user={user}>
+							<LayoutOne />
+						</PrivateRoute>
+					}>
+					<Route index element={<Navigate to="/dashboard" />} />
+					<Route
+						path="dashboard"
+						element={<Dashboard user={user} projects={projects} />}
+					/>
+					<Route path="projects" element={<ProjectList user={user} />} />
+					<Route
+						path="projects/:id"
+						element={
+							<ProjectDetail user={user} onDelete={handleDeleteProject} />
+						}
+					/>
+					<Route path="AddProject" element={<AddProject user={user} />} />
+					<Route
+						path="projects/edit/:id"
+						element={<EditProject user={user} />}
+					/>
+					<Route path="profile" element={<Profile user={user} />} />
+					<Route
+						path="profile/edit"
+						element={<EditProfile user={user} updateUser={updateUser} />}
+					/>
+					<Route path="profile/change-password" element={<ChangePassword />} />
+				</Route>
+			</Routes>
+		</Router>
+	);
+};
+
+export default App;

@@ -1,0 +1,15 @@
+your-project/
+│
+├── frontend/        → folder React kamu (isi semua file JSX yang kamu kirim)
+└── backend/         → folder baru untuk Express backend
+    ├── config/
+    │   └── db.js
+    ├── controllers/
+    │   └── authController.js
+    ├── routes/
+    │   └── authRoutes.js
+    ├── utils/
+    │   └── hashPassword.js
+    ├── .env
+    ├── app.js
+    └── package.json

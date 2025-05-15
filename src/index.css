@@ -1,0 +1,33 @@
+/** @format */
+@import "tailwindcss";
+
+/* src/index.css */
+:root {
+	--soft-beige: #f5f2e7;
+	--accent-orange: #f28500;
+	--dark-blue: #4c5c68;
+	--light-blue: #a7b9c5;
+}
+
+
+
+.bg-soft-beige {
+	background-color: var(--soft-beige);
+}
+
+.text-dark-blue {
+	color: var(--dark-blue);
+}
+
+.bg-accent-orange {
+	background-color: var(--accent-orange);
+}
+
+.text-light-blue {
+	color: var(--light-blue);
+}
+
+/* Add this to your index.css if needed for active tab background color */
+.bg-accent-orange {
+	background-color: #f28500; /* Adjust this as per your theme */
+}
