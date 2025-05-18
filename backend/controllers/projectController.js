@@ -1,14 +1,16 @@
 /** @format */
 
-import { getConnection } from "../config/db.js";
+import pool from "../config/db.js"; // Gunakan pool dari mysql2
 
-// ✅ Get all projects by user ID
+// ======================================================
+// ✅ Fungsi: getProjectsByUser
+// Mengambil semua project milik user tertentu
+// ======================================================
 export const getProjectsByUser = async (req, res) => {
 	const { userId } = req.params;
 
 	try {
-		const conn = await getConnection();
-		const [projects] = await conn.query(
+		const [projects] = await pool.query(
 			"SELECT * FROM projects WHERE user_id = ?",
 			[userId]
 		);
@@ -19,7 +21,10 @@ export const getProjectsByUser = async (req, res) => {
 	}
 };
 
-// ✅ Create new project
+// ======================================================
+// ✅ Fungsi: createProject
+// Menambahkan project baru ke database
+// ======================================================
 export const createProject = async (req, res) => {
 	const {
 		user_id,
@@ -35,8 +40,7 @@ export const createProject = async (req, res) => {
 	} = req.body;
 
 	try {
-		const conn = await getConnection();
-		await conn.query(
+		await pool.query(
 			`INSERT INTO projects 
 			(user_id, title, category, difficulty, status, tags, image_url, github_link, description, \`references\`) 
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -45,7 +49,7 @@ export const createProject = async (req, res) => {
 				title,
 				category,
 				difficulty,
-				status, // ✅ posisi status di sini sesuai dengan urutan kolom
+				status,
 				tags,
 				image_url,
 				github_link,
@@ -62,7 +66,10 @@ export const createProject = async (req, res) => {
 	}
 };
 
-// ✅ Update existing project
+// ======================================================
+// ✅ Fungsi: updateProject
+// Memperbarui data project berdasarkan ID
+// ======================================================
 export const updateProject = async (req, res) => {
 	const { id } = req.params;
 	const {
@@ -78,8 +85,7 @@ export const updateProject = async (req, res) => {
 	} = req.body;
 
 	try {
-		const conn = await getConnection();
-		await conn.query(
+		await pool.query(
 			`UPDATE projects SET 
 			title = ?, 
 			category = ?, 
@@ -95,7 +101,7 @@ export const updateProject = async (req, res) => {
 				title,
 				category,
 				difficulty,
-				status, // ✅ urutan field sudah benar
+				status,
 				tags,
 				image_url,
 				github_link,
@@ -113,13 +119,15 @@ export const updateProject = async (req, res) => {
 	}
 };
 
-// ✅ Delete project by ID
+// ======================================================
+// ✅ Fungsi: deleteProject
+// Menghapus project berdasarkan ID
+// ======================================================
 export const deleteProject = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		const conn = await getConnection();
-		await conn.query("DELETE FROM projects WHERE id = ?", [id]);
+		await pool.query("DELETE FROM projects WHERE id = ?", [id]);
 		res.json({ success: true, message: "Project deleted" });
 	} catch (error) {
 		console.error("Delete Project Error:", error);
