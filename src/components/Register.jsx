@@ -36,15 +36,19 @@ const Register = ({ setUser }) => {
 		}
 
 		try {
-			const response = await fetch("http://localhost:5001/api/auth/register", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					username: formData.username.trim(),
-					email: formData.email.trim().toLowerCase(),
-					password: formData.password,
-				}),
-			});
+			// const response = await fetch("http://localhost:5001/api/auth/register", {
+			const response = await fetch(
+				"https://orbital-signal-457502-f2.et.r.appspot.com/api/auth/register",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						username: formData.username.trim(),
+						email: formData.email.trim().toLowerCase(),
+						password: formData.password,
+					}),
+				}
+			);
 
 			const data = await response.json();
 

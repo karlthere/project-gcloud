@@ -54,7 +54,8 @@ const EditProfile = ({ user, updateUser }) => {
 		};
 
 		try {
-			const res = await fetch("http://localhost:5001/api/auth/update-profile", {
+			// const res = await fetch("http://localhost:5001/api/auth/update-profile", {
+			const res = await fetch("https://orbital-signal-457502-f2.et.r.appspot.com/api/auth/update-profile", {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",

@@ -16,7 +16,8 @@ const ProjectDetail = () => {
 				if (!storedUser || !storedUser.id) return;
 
 				const res = await fetch(
-					`http://localhost:5001/api/projects/${storedUser.id}`
+					// `http://localhost:5001/api/projects/${storedUser.id}`
+					`https://orbital-signal-457502-f2.et.r.appspot.com/api/projects/${storedUser.id}`
 				);
 				const data = await res.json();
 
@@ -37,9 +38,13 @@ const ProjectDetail = () => {
 			return;
 
 		try {
-			const res = await fetch(`http://localhost:5001/api/projects/${id}`, {
-				method: "DELETE",
-			});
+			// const res = await fetch(`http://localhost:5001/api/projects/${id}`, {
+			const res = await fetch(
+				`https://orbital-signal-457502-f2.et.r.appspot.com//api/projects/${id}`,
+				{
+					method: "DELETE",
+				}
+			);
 
 			if (!res.ok) throw new Error("Delete failed");
 

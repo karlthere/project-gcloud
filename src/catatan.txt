@@ -13,3 +13,14 @@ your-project/
     ├── .env
     ├── app.js
     └── package.json
+
+
+    to do list:
+    front end for notes di detail & edit detail
+    backend for notes 
+    update mysql di google cloud
+
+
+PANGGIL
+    backend/cloud-sql-proxy.exe orbital-signal-457502-f2:asia-southeast2:devpath --credentials-file=backend/key.json
+

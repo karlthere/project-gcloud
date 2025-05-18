@@ -11,11 +11,15 @@ const Login = ({ setUser }) => {
 		e.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:5001/api/auth/login", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, password }),
-			});
+			// const response = await fetch("http://localhost:5001/api/auth/login", {
+			const response = await fetch(
+				"https://orbital-signal-457502-f2.et.r.appspot.com/api/auth/login",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ email, password }),
+				}
+			);
 
 			const data = await response.json();
 

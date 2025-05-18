@@ -16,7 +16,7 @@ const EditProject = () => {
 				if (!storedUser || !storedUser.id) return;
 
 				const res = await fetch(
-					`http://localhost:5001/api/projects/${storedUser.id}`
+					`https://orbital-signal-457502-f2.et.r.appspot.com/api/projects/${storedUser.id}`
 				);
 				const data = await res.json();
 
@@ -30,7 +30,7 @@ const EditProject = () => {
 					title: found.title || "",
 					category: found.category || "Select",
 					difficulty: found.difficulty || "Select",
-					status: found.status || "Select", // ✅ Include status
+					status: found.status || "Select", 
 					tags: found.tags || "",
 					image: null,
 					description: found.description || "",
@@ -80,11 +80,15 @@ const EditProject = () => {
 				references: formData.references,
 			};
 
-			const res = await fetch(`http://localhost:5001/api/projects/${id}`, {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(payload),
-			});
+			// const res = await fetch(`http://localhost:5001/api/projects/${id}`, {
+			const res = await fetch(
+				`https://orbital-signal-457502-f2.et.r.appspot.com//api/projects/${id}`,
+				{
+					method: "PUT",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(payload),
+				}
+			);
 
 			if (!res.ok) throw new Error("Update failed");
 
