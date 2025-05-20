@@ -53,7 +53,7 @@ DevPath is a web-based application designed to help beginner and intermediate de
 ### 1. Clone this repo
 
 ```bash
-git clone https://github.com/your-username/project-devpath.git
+git clone https://github.com/karlthere/project-devpath.git
 cd project-devpath
 ```
 
