@@ -13,17 +13,17 @@ const LayoutOne = ({ setUser }) => {
 	};
 
 	return (
-		<div className="min-h-screen flex bg-gray-100">
-			{/* SIDEBAR */}
+		<div className="min-h-screen flex bg-gray-100 overflow-x-hidden">
+			{/* Sidebar */}
 			<Sidebar
 				isOpen={sidebarOpen}
 				toggleSidebar={toggleSidebar}
 				setUser={setUser}
 			/>
 
-			{/* MAIN CONTENT */}
+			{/* Main Content */}
 			<div className="flex-1 md:ml-64">
-				{/* NAVBAR / TOGGLE BUTTON FOR MOBILE */}
+				{/* Topbar (mobile only) */}
 				<div className="md:hidden bg-gray-900 text-white p-4 flex items-center justify-between">
 					<button onClick={toggleSidebar}>
 						<FaBars className="text-xl" />

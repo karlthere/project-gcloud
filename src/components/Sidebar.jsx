@@ -38,7 +38,7 @@ const Sidebar = ({ setUser, isOpen, toggleSidebar }) => {
 		<div
 			className={`${
 				isOpen ? "block" : "hidden"
-			} md:block fixed top-0 left-0 w-64 bg-gray-900 text-white p-6 h-full z-50`}>
+			} md:block fixed top-0 left-0 w-64 bg-gray-900 text-white p-6 h-full z-50 overflow-y-auto`}>
 			{/* Logo */}
 			<div className="flex items-center mb-8">
 				<div className="w-32 h-16 flex items-center justify-center">

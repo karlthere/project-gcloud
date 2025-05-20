@@ -47,7 +47,7 @@ const ProjectList = () => {
 
 						<button
 							className="w-full sm:w-auto px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
-							onClick={() => navigate("/AddProject")}>
+							onClick={() => navigate("/add-project")}>
 							➕ Add Project
 						</button>
 					</div>
