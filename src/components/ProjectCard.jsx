@@ -17,8 +17,8 @@ const ProjectCard = ({ project }) => {
 	};
 
 	return (
-		<div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl shadow-sm transition hover:shadow-lg hover:scale-[1.01] duration-200">
-			{/* Wrapper untuk navigasi internal */}
+		<div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl shadow-sm transition hover:shadow-lg hover:scale-[1.01] duration-200 overflow-hidden">
+			{/* Navigasi ke detail */}
 			<Link to={`/projects/${project.id}`} className="block">
 				{/* Image */}
 				<img
@@ -27,12 +27,12 @@ const ProjectCard = ({ project }) => {
 					className="w-full h-40 object-cover rounded-t-xl"
 				/>
 
-				<div className="p-4 space-y-3">
+				<div className="p-4 space-y-2">
 					{/* Title */}
-					<h3 className="text-xl font-bold text-white">{project.title}</h3>
+					<h3 className="text-lg font-semibold text-white">{project.title}</h3>
 
 					{/* Category & Difficulty */}
-					<div className="flex flex-wrap gap-2 text-sm">
+					<div className="flex flex-wrap gap-2 text-xs">
 						<span className="bg-white/10 text-gray-300 px-2 py-1 rounded-full">
 							{project.category}
 						</span>
@@ -43,11 +43,11 @@ const ProjectCard = ({ project }) => {
 
 					{/* Tags */}
 					{project.tags && (
-						<div className="flex flex-wrap gap-2 text-xs">
+						<div className="flex flex-wrap gap-2 text-xs break-words">
 							{project.tags.split(",").map((tag, i) => (
 								<span
 									key={i}
-									className="bg-blue-500/10 text-blue-300 px-2 py-1 rounded-full">
+									className="bg-blue-500/10 text-blue-300 px-2 py-1 rounded-full break-all">
 									{tag.trim()}
 								</span>
 							))}
@@ -63,22 +63,24 @@ const ProjectCard = ({ project }) => {
 					</span>
 
 					{/* Description */}
-					<p className="text-sm text-gray-300">{project.description}</p>
+					<p className="text-sm text-gray-300 line-clamp-3">
+						{project.description}
+					</p>
 				</div>
 			</Link>
 
-			{/* GitHub Link di luar Link */}
-			<div className="px-4 pb-4">
-				{project.github_link && (
+			{/* GitHub Link */}
+			{project.github_link && (
+				<div className="px-4 pb-4">
 					<a
 						href={project.github_link}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="text-blue-400 text-sm hover:underline inline-block mt-1">
+						className="text-blue-400 text-sm hover:underline inline-block mt-1 break-all">
 						View on GitHub ↗
 					</a>
-				)}
-			</div>
+				</div>
+			)}
 		</div>
 	);
 };

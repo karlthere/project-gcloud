@@ -1,5 +1,4 @@
 /** @format */
-
 import { useState } from "react";
 
 const ProjectForm = () => {
@@ -24,11 +23,11 @@ const ProjectForm = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+		<div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
 			<form
 				onSubmit={handleSubmit}
 				className="space-y-5 w-full max-w-md bg-white/5 border border-white/10 backdrop-blur-md p-8 rounded-2xl shadow-lg text-white">
-				<h2 className="text-2xl font-bold mb-2 text-center">
+				<h2 className="text-2xl font-bold mb-6 text-center text-blue-400">
 					🛠 Add New Project
 				</h2>
 
@@ -38,7 +37,7 @@ const ProjectForm = () => {
 					value={formData.title}
 					onChange={handleChange}
 					placeholder="Project Title"
-					className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+					className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 placeholder:text-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
 				/>
 
 				<textarea
@@ -46,7 +45,8 @@ const ProjectForm = () => {
 					value={formData.description}
 					onChange={handleChange}
 					placeholder="Project Description"
-					className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+					rows="3"
+					className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 placeholder:text-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
 				/>
 
 				<select
@@ -75,7 +75,7 @@ const ProjectForm = () => {
 					value={formData.programming_language}
 					onChange={handleChange}
 					placeholder="Programming Language"
-					className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+					className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 placeholder:text-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
 				/>
 
 				<input
@@ -84,12 +84,12 @@ const ProjectForm = () => {
 					value={formData.github_link}
 					onChange={handleChange}
 					placeholder="GitHub Link"
-					className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 placeholder-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+					className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 placeholder:text-gray-400 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
 				/>
 
 				<button
 					type="submit"
-					className="w-full py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
+					className="w-full py-3 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
 					Save Project
 				</button>
 			</form>

@@ -1,5 +1,4 @@
 /** @format */
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -42,6 +41,8 @@ const AddProject = () => {
 			return;
 		}
 
+		// TODO: Optional Upload Image Logic
+
 		const payload = {
 			user_id: storedUser.id,
 			title: formData.title,
@@ -50,16 +51,15 @@ const AddProject = () => {
 			status: formData.status,
 			tags: formData.tags,
 			image_url:
-				"https://i.pinimg.com/736x/e9/04/0c/e9040cb01fbc5f5d0de4c40725b255a7.jpg",
+				"https://i.pinimg.com/736x/82/a3/3a/82a33a43be59e913b58efbdfd64e281e.jpg", // Replace if using upload
 			github_link: formData.githubLink,
 			description: formData.description,
 			references: formData.references,
 		};
 
 		try {
-			// const response = await fetch("http://localhost:5001/api/projects", {
 			const response = await fetch(
-				"https://orbital-signal-457502-f2.et.r.appspot.com/api/projects",
+				`${import.meta.env.VITE_API_URL}/api/projects`,
 				{
 					method: "POST",
 					headers: {
@@ -90,10 +90,10 @@ const AddProject = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+		<div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 py-12">
 			<form
 				onSubmit={handleSubmit}
-				className="w-full max-w-3xl bg-white/5 border border-white/10 backdrop-blur-md p-8 rounded-2xl shadow-lg text-white space-y-6">
+				className="w-full max-w-3xl bg-white/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-lg text-white space-y-6">
 				<h2 className="text-3xl font-bold text-center">📥 Add New Project</h2>
 
 				<InputField
@@ -104,7 +104,7 @@ const AddProject = () => {
 					onChange={handleChange}
 				/>
 
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-6 gap-y-4">
 					<SelectField
 						label="Category"
 						name="category"
@@ -133,18 +133,21 @@ const AddProject = () => {
 					name="tags"
 					value={formData.tags}
 					onChange={handleChange}
-					placeholder="Separate tags by commas"
+					placeholder="Separate tags with commas (e.g. HTML, CSS, JS)"
 				/>
 
+				{/* Image Upload */}
 				<div>
 					<label className="block text-sm font-semibold mb-1">Image</label>
 					<input
 						type="file"
+						accept="image/*"
 						onChange={handleFileChange}
 						className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
 					/>
 				</div>
 
+				{/* Description */}
 				<div>
 					<label className="block text-sm font-semibold mb-1">
 						Description
@@ -164,7 +167,7 @@ const AddProject = () => {
 					name="githubLink"
 					value={formData.githubLink}
 					onChange={handleChange}
-					placeholder="Fill in if your project has already been uploaded to GitHub or deployed."
+					placeholder="Paste GitHub or deployment link"
 				/>
 
 				<InputField
@@ -172,19 +175,19 @@ const AddProject = () => {
 					name="references"
 					value={formData.references}
 					onChange={handleChange}
-					placeholder="Separate references by commas"
+					placeholder="Separate links with commas"
 				/>
 
-				<div className="flex justify-between mt-6 gap-4">
+				<div className="flex flex-col sm:flex-row justify-between gap-4 pt-4">
 					<button
 						type="button"
 						onClick={handleCancel}
-						className="flex-1 py-3 bg-white/10 text-gray-300 hover:bg-white/20 rounded-full transition">
+						className="w-full sm:w-1/2 py-3 bg-white/10 text-gray-300 hover:bg-white/20 rounded-md transition">
 						Cancel
 					</button>
 					<button
 						type="submit"
-						className="flex-1 py-3 bg-blue-600 text-white hover:bg-blue-700 rounded-full transition">
+						className="w-full sm:w-1/2 py-3 bg-blue-600 text-white hover:bg-blue-700 rounded-md transition">
 						Submit Project
 					</button>
 				</div>
@@ -193,7 +196,7 @@ const AddProject = () => {
 	);
 };
 
-// Reusable Input Field
+// 🔧 Input Field
 const InputField = ({ label, ...props }) => (
 	<div>
 		<label className="block text-sm font-semibold mb-1">{label}</label>
@@ -204,7 +207,7 @@ const InputField = ({ label, ...props }) => (
 	</div>
 );
 
-// Reusable Select Field
+// 🔧 Select Field
 const SelectField = ({ label, name, value, onChange, options }) => (
 	<div className="relative">
 		<label className="block text-sm font-semibold mb-1">{label}</label>

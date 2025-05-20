@@ -37,7 +37,7 @@ const ChangePassword = () => {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5001/api/auth/change-password",
+				`${import.meta.env.VITE_API_URL}/api/auth/change-password`,
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -65,65 +65,49 @@ const ChangePassword = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-900 flex justify-center items-center px-4">
-			<div className="max-w-md w-full bg-white/5 border border-white/10 backdrop-blur-md p-8 rounded-xl shadow-xl text-white">
+		<div className="min-h-screen bg-gray-900 flex justify-center items-center px-4 py-12">
+			<div className="max-w-md w-full bg-white/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-xl shadow-xl text-white">
 				<h2 className="text-2xl font-bold text-center mb-6">
 					🔒 Change Password
 				</h2>
 
 				<form onSubmit={handleSubmit} className="space-y-4">
-					<div>
-						<label className="block text-sm font-semibold mb-1">
-							Current Password
-						</label>
-						<input
-							type="password"
-							name="oldPassword"
-							value={formData.oldPassword}
-							onChange={handleChange}
-							required
-							className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white focus:outline-none"
-						/>
-					</div>
+					<InputField
+						label="Current Password"
+						type="password"
+						name="oldPassword"
+						value={formData.oldPassword}
+						onChange={handleChange}
+						required
+					/>
+					<InputField
+						label="New Password"
+						type="password"
+						name="newPassword"
+						value={formData.newPassword}
+						onChange={handleChange}
+						required
+						minLength={6}
+					/>
+					<InputField
+						label="Confirm New Password"
+						type="password"
+						name="confirmPassword"
+						value={formData.confirmPassword}
+						onChange={handleChange}
+						required
+					/>
 
-					<div>
-						<label className="block text-sm font-semibold mb-1">
-							New Password
-						</label>
-						<input
-							type="password"
-							name="newPassword"
-							value={formData.newPassword}
-							onChange={handleChange}
-							required
-							className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white focus:outline-none"
-						/>
-					</div>
-
-					<div>
-						<label className="block text-sm font-semibold mb-1">
-							Confirm New Password
-						</label>
-						<input
-							type="password"
-							name="confirmPassword"
-							value={formData.confirmPassword}
-							onChange={handleChange}
-							required
-							className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white focus:outline-none"
-						/>
-					</div>
-
-					<div className="flex justify-between mt-6 gap-4">
+					<div className="flex flex-col sm:flex-row justify-between gap-4 pt-4">
 						<button
 							type="button"
 							onClick={() => navigate("/profile")}
-							className="flex-1 py-2 bg-white/10 hover:bg-white/20 text-gray-300 rounded-full">
+							className="w-full sm:w-1/2 py-2 bg-white/10 hover:bg-white/20 text-gray-300 rounded-md">
 							Cancel
 						</button>
 						<button
 							type="submit"
-							className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full">
+							className="w-full sm:w-1/2 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
 							Save Password
 						</button>
 					</div>
@@ -132,5 +116,18 @@ const ChangePassword = () => {
 		</div>
 	);
 };
+
+// Reusable Input
+const InputField = ({ label, ...props }) => (
+	<div>
+		<label className="block text-sm font-semibold mb-1 capitalize">
+			{label}
+		</label>
+		<input
+			{...props}
+			className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+		/>
+	</div>
+);
 
 export default ChangePassword;

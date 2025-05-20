@@ -20,13 +20,13 @@ const Dashboard = ({ projects, user }) => {
 	const recentProjects = [...userProjects].slice(0, 3);
 
 	return (
-		<div className="p-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-white transition-all">
-			<h1 className="text-3xl font-bold mb-8 flex items-center gap-2">
+		<div className="p-4 md:p-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-white transition-all">
+			<h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 flex items-center gap-2">
 				👤 Halo, {user?.username}
 			</h1>
 
 			{/* Summary Cards */}
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
 				<SummaryCard
 					icon={<ClipboardList className="w-5 h-5" />}
 					title="Total Projects"
@@ -48,8 +48,8 @@ const Dashboard = ({ projects, user }) => {
 			</div>
 
 			{/* Recent Projects */}
-			<div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl shadow-sm mb-10">
-				<h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
+			<div className="bg-white/5 backdrop-blur-sm border border-white/10 p-4 md:p-6 rounded-xl shadow-sm mb-8">
+				<h2 className="text-lg md:text-xl font-semibold flex items-center gap-2 mb-4">
 					<Clock className="w-5 h-5" /> Recent Projects
 				</h2>
 				{recentProjects.length > 0 ? (
@@ -57,8 +57,8 @@ const Dashboard = ({ projects, user }) => {
 						{recentProjects.map((project) => (
 							<li
 								key={project.id}
-								className="bg-white/10 hover:bg-white/20 border border-white/10 p-4 rounded-lg flex justify-between items-center transition">
-								<div>
+								className="bg-white/10 hover:bg-white/20 border border-white/10 p-4 rounded-lg flex flex-col sm:flex-row justify-between sm:items-center transition">
+								<div className="mb-2 sm:mb-0">
 									<h3 className="text-white font-semibold">{project.title}</h3>
 									<p className="text-sm text-gray-300">{project.description}</p>
 								</div>
@@ -72,8 +72,10 @@ const Dashboard = ({ projects, user }) => {
 			</div>
 
 			{/* User Info */}
-			<div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-xl shadow-sm">
-				<h2 className="text-xl font-semibold mb-2">👤 {user?.username}</h2>
+			<div className="bg-white/5 backdrop-blur-sm border border-white/10 p-4 md:p-6 rounded-xl shadow-sm">
+				<h2 className="text-lg md:text-xl font-semibold mb-2">
+					👤 {user?.username}
+				</h2>
 				<p className="text-gray-300">Email: {user?.email}</p>
 				<p className="mt-2 text-gray-300">
 					You have{" "}
@@ -95,7 +97,7 @@ const SummaryCard = ({ icon, title, value, color = "slate" }) => {
 	};
 
 	return (
-		<div className="bg-white/10 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-sm">
+		<div className="bg-white/10 backdrop-blur-md border border-white/10 p-4 md:p-5 rounded-2xl shadow-sm">
 			<div className="flex items-center space-x-4">
 				<div className={`p-2 rounded-full ${colorMap[color] || ""}`}>
 					{icon}

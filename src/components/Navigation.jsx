@@ -9,77 +9,51 @@ const Navigation = ({
 	setSelectedCategory,
 }) => {
 	return (
-		<nav className="mb-6 bg-soft-beige p-4 shadow-md rounded-md">
-			{/* Links for Home and Add Project */}
-			<Link to="/" className="text-dark-blue mr-4 hover:text-accent-orange">
-				Home
-			</Link>
-			<Link
-				to="/add-project"
-				className="text-dark-blue hover:text-accent-orange">
-				Add Project
-			</Link>
-
-			{/* Difficulty Level Filter */}
-			<div className="flex justify-center mt-4">
-				<button
-					onClick={() => setSelectedLevel("Mudah")}
-					className={`px-4 py-2 mr-4 text-lg rounded-full ${
-						selectedLevel === "Mudah"
-							? "bg-accent-orange text-white"
-							: "bg-gray-200"
-					}`}>
-					Mudah
-				</button>
-				<button
-					onClick={() => setSelectedLevel("Menengah")}
-					className={`px-4 py-2 mr-4 text-lg rounded-full ${
-						selectedLevel === "Menengah"
-							? "bg-accent-orange text-white"
-							: "bg-gray-200"
-					}`}>
-					Menengah
-				</button>
-				<button
-					onClick={() => setSelectedLevel("Lanjutan")}
-					className={`px-4 py-2 text-lg rounded-full ${
-						selectedLevel === "Lanjutan"
-							? "bg-accent-orange text-white"
-							: "bg-gray-200"
-					}`}>
-					Lanjutan
-				</button>
+		<nav className="mb-6 bg-soft-beige p-4 shadow-md rounded-md space-y-4">
+			{/* Top Links */}
+			<div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
+				<Link
+					to="/"
+					className="text-dark-blue hover:text-accent-orange transition">
+					🏠 Home
+				</Link>
+				<Link
+					to="/add-project"
+					className="text-dark-blue hover:text-accent-orange transition">
+					➕ Add Project
+				</Link>
 			</div>
 
-			{/* Category Filter */}
-			<div className="flex justify-center mt-4">
-				<button
-					onClick={() => setSelectedCategory("Frontend")}
-					className={`px-4 py-2 mr-4 text-lg rounded-full ${
-						selectedCategory === "Frontend"
-							? "bg-accent-orange text-white"
-							: "bg-gray-200"
-					}`}>
-					Frontend
-				</button>
-				<button
-					onClick={() => setSelectedCategory("Backend")}
-					className={`px-4 py-2 mr-4 text-lg rounded-full ${
-						selectedCategory === "Backend"
-							? "bg-accent-orange text-white"
-							: "bg-gray-200"
-					}`}>
-					Backend
-				</button>
-				<button
-					onClick={() => setSelectedCategory("Fullstack")}
-					className={`px-4 py-2 text-lg rounded-full ${
-						selectedCategory === "Fullstack"
-							? "bg-accent-orange text-white"
-							: "bg-gray-200"
-					}`}>
-					Fullstack
-				</button>
+			{/* Filter by Level */}
+			<div className="flex flex-wrap justify-center gap-2">
+				{["Mudah", "Menengah", "Lanjutan"].map((level) => (
+					<button
+						key={level}
+						onClick={() => setSelectedLevel(level)}
+						className={`px-4 py-1.5 text-sm md:text-base rounded-full transition ${
+							selectedLevel === level
+								? "bg-accent-orange text-white"
+								: "bg-gray-200 text-gray-800 hover:bg-gray-300"
+						}`}>
+						{level}
+					</button>
+				))}
+			</div>
+
+			{/* Filter by Category */}
+			<div className="flex flex-wrap justify-center gap-2">
+				{["Frontend", "Backend", "Fullstack"].map((category) => (
+					<button
+						key={category}
+						onClick={() => setSelectedCategory(category)}
+						className={`px-4 py-1.5 text-sm md:text-base rounded-full transition ${
+							selectedCategory === category
+								? "bg-accent-orange text-white"
+								: "bg-gray-200 text-gray-800 hover:bg-gray-300"
+						}`}>
+						{category}
+					</button>
+				))}
 			</div>
 		</nav>
 	);

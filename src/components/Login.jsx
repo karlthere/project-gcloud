@@ -11,7 +11,6 @@ const Login = ({ setUser }) => {
 		e.preventDefault();
 
 		try {
-			// const response = await fetch("http://localhost:5001/api/auth/login", {
 			const response = await fetch(
 				"https://orbital-signal-457502-f2.et.r.appspot.com/api/auth/login",
 				{
@@ -31,7 +30,6 @@ const Login = ({ setUser }) => {
 				return;
 			}
 
-			// Simpan ke state dan localStorage
 			setUser(data);
 			localStorage.setItem("user", JSON.stringify(data));
 			navigate("/dashboard");
@@ -42,9 +40,9 @@ const Login = ({ setUser }) => {
 	};
 
 	return (
-		<div className="min-h-screen flex">
-			{/* LEFT  */}
-			<div className="hidden md:flex w-1/2 h-screen">
+		<div className="min-h-screen flex flex-col md:flex-row">
+			{/* LEFT - Illustration */}
+			<div className="hidden md:flex md:w-1/2 h-64 md:h-auto">
 				<img
 					src="/login.png"
 					alt="DevPath Login Illustration"
@@ -52,8 +50,8 @@ const Login = ({ setUser }) => {
 				/>
 			</div>
 
-			{/* RIGHT Form */}
-			<div className="flex-1 bg-gray-900 flex items-center justify-center px-4">
+			{/* RIGHT - Form */}
+			<div className="flex-1 flex items-center justify-center bg-gray-900 px-6 py-10 md:py-0">
 				<div className="w-full max-w-md p-8 bg-white/5 border border-white/10 rounded-xl text-white backdrop-blur-md shadow-xl">
 					<h2 className="text-3xl font-bold mb-2 text-blue-400">
 						Welcome Back
@@ -69,7 +67,7 @@ const Login = ({ setUser }) => {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
-							className="w-full p-3 rounded-md bg-white/10 border border-white/20 text-white focus:outline-none"
+							className="w-full p-3 rounded-md bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none"
 						/>
 						<input
 							type="password"
@@ -77,12 +75,12 @@ const Login = ({ setUser }) => {
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
-							className="w-full p-3 rounded-md bg-white/10 border border-white/20 text-white focus:outline-none"
+							className="w-full p-3 rounded-md bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none"
 						/>
 
 						<button
 							type="submit"
-							className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-md font-semibold">
+							className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-md font-semibold transition">
 							Log In
 						</button>
 					</form>

@@ -20,7 +20,6 @@ import Register from "./components/Register";
 import PrivateRoute from "./components/PrivateRoute";
 import ChangePassword from "./components/ChangePassword";
 
-// ✅ Ambil dari .env (harus ada di Vite)
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -34,8 +33,7 @@ const App = () => {
 
 	useEffect(() => {
 		const fetchProjects = async () => {
-			if (!user || !user.id) return;
-
+			if (!user?.id) return;
 			try {
 				const res = await fetch(`${API_URL}/api/projects/${user.id}`, {
 					headers: {
@@ -43,15 +41,11 @@ const App = () => {
 						"x-api-key": API_KEY,
 					},
 				});
-
-				if (!res.ok) {
-					throw new Error(`Fetch failed: ${res.status}`);
-				}
-
+				if (!res.ok) throw new Error("Failed to fetch projects");
 				const data = await res.json();
 				setProjects(data);
 			} catch (err) {
-				console.error("Failed to fetch projects:", err);
+				console.error("Project fetch error:", err);
 			}
 		};
 
@@ -72,14 +66,13 @@ const App = () => {
 					"x-api-key": API_KEY,
 				},
 			});
-
 			if (!res.ok) throw new Error("Delete failed");
 
 			alert("Project deleted successfully!");
 			setProjects((prev) => prev.filter((p) => p.id !== projectId));
 			window.location.href = "/projects";
 		} catch (err) {
-			console.error("Failed to delete project:", err);
+			console.error("Delete error:", err);
 			alert("Error deleting project");
 		}
 	};
@@ -94,7 +87,7 @@ const App = () => {
 					path="/"
 					element={
 						<PrivateRoute user={user}>
-							<LayoutOne />
+							<LayoutOne setUser={setUser} />
 						</PrivateRoute>
 					}>
 					<Route index element={<Navigate to="/dashboard" />} />
@@ -109,7 +102,7 @@ const App = () => {
 							<ProjectDetail user={user} onDelete={handleDeleteProject} />
 						}
 					/>
-					<Route path="AddProject" element={<AddProject user={user} />} />
+					<Route path="add-project" element={<AddProject user={user} />} />
 					<Route
 						path="projects/edit/:id"
 						element={<EditProject user={user} />}
@@ -121,6 +114,9 @@ const App = () => {
 					/>
 					<Route path="profile/change-password" element={<ChangePassword />} />
 				</Route>
+
+				{/* Optional: Not found route */}
+				<Route path="*" element={<Navigate to="/dashboard" />} />
 			</Routes>
 		</Router>
 	);

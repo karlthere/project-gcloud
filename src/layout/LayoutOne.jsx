@@ -1,18 +1,39 @@
 /** @format */
 
-import Sidebar from "../components/Sidebar"; // Sidebar component
-import { Outlet } from "react-router-dom"; // For rendering nested routes
+import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import Sidebar from "../components/Sidebar";
+import { FaBars } from "react-icons/fa";
 
-const LayoutOne = () => {
+const LayoutOne = ({ setUser }) => {
+	const [sidebarOpen, setSidebarOpen] = useState(false);
+
+	const toggleSidebar = () => {
+		setSidebarOpen((prev) => !prev);
+	};
+
 	return (
-		<div className="flex min-h-screen bg-white dark:bg-gray-900">
-			{/* Sidebar */}
-			<Sidebar />
+		<div className="min-h-screen flex bg-gray-100">
+			{/* SIDEBAR */}
+			<Sidebar
+				isOpen={sidebarOpen}
+				toggleSidebar={toggleSidebar}
+				setUser={setUser}
+			/>
 
-			{/* Main content */}
-			<div className="flex-1 p-6 ml-64 overflow-y-auto">
-				{/* Render the nested route (based on which route is active) */}
-				<Outlet />
+			{/* MAIN CONTENT */}
+			<div className="flex-1 md:ml-64">
+				{/* NAVBAR / TOGGLE BUTTON FOR MOBILE */}
+				<div className="md:hidden bg-gray-900 text-white p-4 flex items-center justify-between">
+					<button onClick={toggleSidebar}>
+						<FaBars className="text-xl" />
+					</button>
+					<h1 className="text-lg font-semibold">DevPath</h1>
+				</div>
+
+				<main className="p-4">
+					<Outlet />
+				</main>
 			</div>
 		</div>
 	);

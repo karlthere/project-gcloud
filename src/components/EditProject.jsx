@@ -25,7 +25,6 @@ const EditProject = () => {
 					}
 				);
 				const data = await res.json();
-
 				const found = data.find((p) => p.id === parseInt(id));
 				if (!found) {
 					alert("Project not found");
@@ -88,7 +87,6 @@ const EditProject = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
 		try {
 			let imageUrl = formData.image_url;
 
@@ -139,10 +137,10 @@ const EditProject = () => {
 	}
 
 	return (
-		<div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+		<div className="min-h-screen bg-gray-900 flex items-center justify-center px-4 py-12">
 			<form
 				onSubmit={handleSubmit}
-				className="w-full max-w-3xl bg-white/5 border border-white/10 backdrop-blur-md p-8 rounded-2xl shadow-lg text-white space-y-6">
+				className="w-full max-w-3xl bg-white/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-lg text-white space-y-6 md:space-y-8">
 				<h2 className="text-3xl font-bold text-center">✏️ Edit Project</h2>
 
 				<InputField
@@ -153,7 +151,7 @@ const EditProject = () => {
 					onChange={handleChange}
 				/>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-4">
 					<SelectField
 						label="Category"
 						name="category"
@@ -186,16 +184,19 @@ const EditProject = () => {
 				/>
 
 				<div>
-					<label className="block text-sm font-semibold mb-1">Image</label>
+					<label className="block text-sm font-semibold mb-1 capitalize">
+						Image
+					</label>
 					<input
 						type="file"
+						accept="image/*"
 						onChange={handleFileChange}
 						className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
 					/>
 				</div>
 
 				<div>
-					<label className="block text-sm font-semibold mb-1">
+					<label className="block text-sm font-semibold mb-1 capitalize">
 						Description
 					</label>
 					<textarea
@@ -214,6 +215,7 @@ const EditProject = () => {
 					value={formData.githubLink}
 					onChange={handleChange}
 				/>
+
 				<InputField
 					label="References"
 					name="references"
@@ -222,16 +224,16 @@ const EditProject = () => {
 					placeholder="Separate references by commas"
 				/>
 
-				<div className="flex justify-between mt-6 gap-4">
+				<div className="flex flex-col sm:flex-row justify-between gap-4 pt-4">
 					<button
 						type="button"
 						onClick={handleCancel}
-						className="flex-1 py-3 bg-white/10 text-gray-300 hover:bg-white/20 rounded-full transition">
+						className="w-full sm:w-1/2 py-3 bg-white/10 text-gray-300 hover:bg-white/20 rounded-md transition">
 						Cancel
 					</button>
 					<button
 						type="submit"
-						className="flex-1 py-3 bg-blue-600 text-white hover:bg-blue-700 rounded-full transition">
+						className="w-full sm:w-1/2 py-3 bg-blue-600 text-white hover:bg-blue-700 rounded-md transition">
 						Save Changes
 					</button>
 				</div>
@@ -240,10 +242,12 @@ const EditProject = () => {
 	);
 };
 
-// Reusable Input Field
+// 🔧 Input Field Component
 const InputField = ({ label, ...props }) => (
 	<div>
-		<label className="block text-sm font-semibold mb-1">{label}</label>
+		<label className="block text-sm font-semibold mb-1 capitalize">
+			{label}
+		</label>
 		<input
 			{...props}
 			className="w-full px-4 py-3 rounded-md bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -251,10 +255,12 @@ const InputField = ({ label, ...props }) => (
 	</div>
 );
 
-// Reusable Select Field
+// 🔧 Select Field Component
 const SelectField = ({ label, name, value, onChange, options }) => (
 	<div className="relative">
-		<label className="block text-sm font-semibold mb-1">{label}</label>
+		<label className="block text-sm font-semibold mb-1 capitalize">
+			{label}
+		</label>
 		<select
 			name={name}
 			value={value}

@@ -4,12 +4,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
 	FaHome,
 	FaProjectDiagram,
-	FaUsers,
 	FaUserAlt,
 	FaSignOutAlt,
 } from "react-icons/fa";
 
-const Sidebar = ({ setUser }) => {
+const Sidebar = ({ setUser, isOpen, toggleSidebar }) => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -23,13 +22,23 @@ const Sidebar = ({ setUser }) => {
 		}`;
 
 	const handleLogout = () => {
-		localStorage.removeItem("user"); // Hapus data dari localStorage
-		if (setUser) setUser(null); // Jika disediakan, hapus dari state
+		localStorage.removeItem("user");
+		if (setUser) setUser(null);
 		navigate("/login");
 	};
 
+	// Auto-close sidebar when a link is clicked (on mobile only)
+	const handleLinkClick = () => {
+		if (window.innerWidth < 768) {
+			toggleSidebar();
+		}
+	};
+
 	return (
-		<div className="fixed top-0 left-0 w-64 bg-gray-900 text-white p-6 h-full">
+		<div
+			className={`${
+				isOpen ? "block" : "hidden"
+			} md:block fixed top-0 left-0 w-64 bg-gray-900 text-white p-6 h-full z-50`}>
 			{/* Logo */}
 			<div className="flex items-center mb-8">
 				<div className="w-32 h-16 flex items-center justify-center">
@@ -41,28 +50,30 @@ const Sidebar = ({ setUser }) => {
 				</div>
 			</div>
 
-			{/* Sidebar Links */}
 			<ul className="flex flex-col space-y-3">
 				<li>
-					<Link to="/dashboard" className={linkClass("/dashboard")}>
+					<Link
+						to="/dashboard"
+						className={linkClass("/dashboard")}
+						onClick={handleLinkClick}>
 						<FaHome className="text-xl" />
 						<span>Dashboard</span>
 					</Link>
 				</li>
 				<li>
-					<Link to="/projects" className={linkClass("/projects")}>
+					<Link
+						to="/projects"
+						className={linkClass("/projects")}
+						onClick={handleLinkClick}>
 						<FaProjectDiagram className="text-xl" />
 						<span>Project</span>
 					</Link>
 				</li>
-				{/* <li>
-					<Link to="/collaborations" className={linkClass("/collaborations")}>
-						<FaUsers className="text-xl" />
-						<span>Kolaborasi</span>
-					</Link>
-				</li> */}
 				<li>
-					<Link to="/profile" className={linkClass("/profile")}>
+					<Link
+						to="/profile"
+						className={linkClass("/profile")}
+						onClick={handleLinkClick}>
 						<FaUserAlt className="text-xl" />
 						<span>Profil</span>
 					</Link>

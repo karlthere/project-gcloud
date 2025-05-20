@@ -1,33 +1,23 @@
 /** @format */
 
-// Import React state + navigation tools
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-// Import custom hook to fetch project data
 import useProjects from "../hooks/useProjects";
-
-// Import reusable UI components
 import ProjectCard from "./ProjectCard";
 import ErrorBoundary from "./ErrorBoundary";
 
 const ProjectList = () => {
-	const navigate = useNavigate(); // 📍 Router navigation (untuk ke halaman AddProject)
-	const storedUser = JSON.parse(localStorage.getItem("user")); // 🔐 Ambil user login dari localStorage
-
-	// 🔄 Ambil data project berdasarkan ID user yang login
+	const navigate = useNavigate();
+	const storedUser = JSON.parse(localStorage.getItem("user"));
 	const { projects, loading } = useProjects(storedUser?.id);
 
-	// 🎛️ State untuk menyimpan filter dan pencarian
 	const [selectedLevel, setSelectedLevel] = useState("Semua");
 	const [selectedCategory, setSelectedCategory] = useState("Semua");
 	const [selectedStatus, setSelectedStatus] = useState("Semua");
 	const [searchQuery, setSearchQuery] = useState("");
 
-	// 🛡️ Amankan agar 'projects' selalu array (tidak null/error)
 	const safeProjects = Array.isArray(projects) ? projects : [];
 
-	// 🔍 Filter project berdasarkan level, kategori, status, dan pencarian
 	const filteredProjects = safeProjects.filter((project) => {
 		if (!project || !project.title) return false;
 
@@ -41,32 +31,28 @@ const ProjectList = () => {
 
 	return (
 		<ErrorBoundary>
-			{" "}
-			{/* 🧱 Pembungkus agar error tidak crash aplikasi */}
-			<div className="p-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-white transition-all">
-				<div className="max-w-6xl mx-auto bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-lg space-y-10">
-					{/* 🖱️ Header dan kolom pencarian */}
-					<div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-4">
-						<h1 className="text-2xl font-bold">📁 Project List</h1>
+			<div className="p-4 md:p-6 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-white transition-all">
+				<div className="max-w-6xl mx-auto bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-2xl shadow-lg space-y-10">
+					{/* Header, Search, Add Button */}
+					<div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:items-center sm:justify-between mb-4">
+						<h1 className="text-xl md:text-2xl font-bold">📁 Project List</h1>
 
-						{/* 🔍 Input pencarian */}
 						<input
 							type="text"
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
 							placeholder="Search Projects..."
-							className="w-full lg:w-96 px-4 py-2 rounded-md bg-white/10 text-white border border-white/20 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+							className="w-full sm:w-64 px-4 py-2 rounded-md bg-white/10 text-white border border-white/20 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
 						/>
 
-						{/* ➕ Tombol tambah project */}
 						<button
-							className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
+							className="w-full sm:w-auto px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
 							onClick={() => navigate("/AddProject")}>
 							➕ Add Project
 						</button>
 					</div>
 
-					{/* 🧩 Filter untuk level, kategori, dan status */}
+					{/* Filter Groups */}
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 						<FilterGroup
 							label="Filter Level"
@@ -88,17 +74,19 @@ const ProjectList = () => {
 						/>
 					</div>
 
-					{/* 📦 Menampilkan semua project yang lolos filter */}
+					{/* Project Grid */}
 					{loading ? (
 						<p className="text-center text-white">Loading projects...</p>
 					) : (
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
 							{filteredProjects.length > 0 ? (
 								filteredProjects.map((project) => (
 									<ProjectCard key={project.id} project={project} />
 								))
 							) : (
-								<p className="text-white">No projects found.</p>
+								<p className="text-white col-span-full text-center">
+									No projects found.
+								</p>
 							)}
 						</div>
 					)}
@@ -108,16 +96,16 @@ const ProjectList = () => {
 	);
 };
 
-// 🔧 Komponen filter button group (Level, Category, Status)
+// 🔧 FilterGroup Component
 const FilterGroup = ({ label, options, selected, onChange }) => (
 	<div>
 		<h3 className="font-semibold text-white mb-2">{label}</h3>
-		<div className="flex flex-wrap gap-2">
+		<div className="flex flex-wrap gap-2 overflow-x-auto">
 			{options.map((option) => (
 				<button
 					key={option}
 					onClick={() => onChange(option)}
-					className={`px-3 py-1 rounded-full text-xs font-medium border ${
+					className={`px-3 py-1 rounded-full text-xs font-medium border whitespace-nowrap ${
 						selected === option
 							? "bg-blue-600 text-white border-blue-400"
 							: "bg-white/10 text-gray-300 border-white/20 hover:bg-white/20"
