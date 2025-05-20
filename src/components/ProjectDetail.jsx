@@ -16,9 +16,15 @@ const ProjectDetail = () => {
 				if (!storedUser || !storedUser.id) return;
 
 				const res = await fetch(
-					// `http://localhost:5001/api/projects/${storedUser.id}`
-					`https://orbital-signal-457502-f2.et.r.appspot.com/api/projects/${storedUser.id}`
+					`https://orbital-signal-457502-f2.et.r.appspot.com/api/projects/${storedUser.id}`,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							"x-api-key": import.meta.env.VITE_API_KEY, // AMBIL DARI .env FRONTEND
+						},
+					}
 				);
+
 				const data = await res.json();
 
 				const found = data.find((p) => p.id === parseInt(id));
@@ -43,6 +49,10 @@ const ProjectDetail = () => {
 				`https://orbital-signal-457502-f2.et.r.appspot.com//api/projects/${id}`,
 				{
 					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						"x-api-key": import.meta.env.VITE_API_KEY,
+					},
 				}
 			);
 

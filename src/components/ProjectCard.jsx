@@ -1,6 +1,5 @@
 /** @format */
 
-
 import { Link } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
@@ -19,6 +18,7 @@ const ProjectCard = ({ project }) => {
 
 	return (
 		<div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl shadow-sm transition hover:shadow-lg hover:scale-[1.01] duration-200">
+			{/* Wrapper untuk navigasi internal */}
 			<Link to={`/projects/${project.id}`} className="block">
 				{/* Image */}
 				<img
@@ -64,8 +64,12 @@ const ProjectCard = ({ project }) => {
 
 					{/* Description */}
 					<p className="text-sm text-gray-300">{project.description}</p>
+				</div>
+			</Link>
 
-					{/* GitHub Link */}
+			{/* GitHub Link di luar Link */}
+			<div className="px-4 pb-4">
+				{project.github_link && (
 					<a
 						href={project.github_link}
 						target="_blank"
@@ -73,8 +77,8 @@ const ProjectCard = ({ project }) => {
 						className="text-blue-400 text-sm hover:underline inline-block mt-1">
 						View on GitHub ↗
 					</a>
-				</div>
-			</Link>
+				)}
+			</div>
 		</div>
 	);
 };

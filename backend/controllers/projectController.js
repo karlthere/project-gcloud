@@ -1,10 +1,12 @@
 /** @format */
 
-import pool from "../config/db.js"; // Gunakan pool dari mysql2
+// Import koneksi pool dari file config
+import pool from "../config/db.js";
 
 // ======================================================
 // ✅ Fungsi: getProjectsByUser
-// Mengambil semua project milik user tertentu
+// Digunakan untuk mengambil semua proyek berdasarkan user_id
+// Route: GET /api/projects/:userId
 // ======================================================
 export const getProjectsByUser = async (req, res) => {
 	const { userId } = req.params;
@@ -14,7 +16,7 @@ export const getProjectsByUser = async (req, res) => {
 			"SELECT * FROM projects WHERE user_id = ?",
 			[userId]
 		);
-		res.json(projects);
+		res.json(projects); // kirim hasil sebagai JSON
 	} catch (error) {
 		console.error("Get Projects Error:", error);
 		res.status(500).json({ success: false, message: "Failed to get projects" });
@@ -23,7 +25,8 @@ export const getProjectsByUser = async (req, res) => {
 
 // ======================================================
 // ✅ Fungsi: createProject
-// Menambahkan project baru ke database
+// Digunakan untuk menambahkan proyek baru ke database
+// Route: POST /api/projects
 // ======================================================
 export const createProject = async (req, res) => {
 	const {
@@ -40,7 +43,10 @@ export const createProject = async (req, res) => {
 	} = req.body;
 
 	try {
-		await pool.query(
+		// Debug log payload (opsional, untuk cek data)
+		console.log("Creating project with data:", req.body);
+
+		const [result] = await pool.query(
 			`INSERT INTO projects 
 			(user_id, title, category, difficulty, status, tags, image_url, github_link, description, \`references\`) 
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -57,7 +63,11 @@ export const createProject = async (req, res) => {
 				references,
 			]
 		);
-		res.status(201).json({ success: true, message: "Project created" });
+
+		// Kirim respon sukses + ID baru
+		res
+			.status(201)
+			.json({ success: true, message: "Project created", id: result.insertId });
 	} catch (error) {
 		console.error("Create Project Error:", error);
 		res
@@ -68,7 +78,8 @@ export const createProject = async (req, res) => {
 
 // ======================================================
 // ✅ Fungsi: updateProject
-// Memperbarui data project berdasarkan ID
+// Digunakan untuk mengupdate proyek berdasarkan ID
+// Route: PUT /api/projects/:id
 // ======================================================
 export const updateProject = async (req, res) => {
 	const { id } = req.params;
@@ -85,17 +96,17 @@ export const updateProject = async (req, res) => {
 	} = req.body;
 
 	try {
-		await pool.query(
+		const [result] = await pool.query(
 			`UPDATE projects SET 
-			title = ?, 
-			category = ?, 
-			difficulty = ?, 
-			status = ?, 
-			tags = ?, 
-			image_url = ?, 
-			github_link = ?, 
-			description = ?, 
-			\`references\` = ? 
+				title = ?, 
+				category = ?, 
+				difficulty = ?, 
+				status = ?, 
+				tags = ?, 
+				image_url = ?, 
+				github_link = ?, 
+				description = ?, 
+				\`references\` = ? 
 			WHERE id = ?`,
 			[
 				title,
@@ -110,7 +121,12 @@ export const updateProject = async (req, res) => {
 				id,
 			]
 		);
-		res.json({ success: true, message: "Project updated" });
+
+		res.json({
+			success: true,
+			message: "Project updated",
+			affectedRows: result.affectedRows,
+		});
 	} catch (error) {
 		console.error("Update Project Error:", error);
 		res
@@ -121,14 +137,22 @@ export const updateProject = async (req, res) => {
 
 // ======================================================
 // ✅ Fungsi: deleteProject
-// Menghapus project berdasarkan ID
+// Digunakan untuk menghapus proyek berdasarkan ID
+// Route: DELETE /api/projects/:id
 // ======================================================
 export const deleteProject = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		await pool.query("DELETE FROM projects WHERE id = ?", [id]);
-		res.json({ success: true, message: "Project deleted" });
+		const [result] = await pool.query("DELETE FROM projects WHERE id = ?", [
+			id,
+		]);
+
+		res.json({
+			success: true,
+			message: "Project deleted",
+			affectedRows: result.affectedRows,
+		});
 	} catch (error) {
 		console.error("Delete Project Error:", error);
 		res

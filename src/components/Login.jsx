@@ -16,7 +16,10 @@ const Login = ({ setUser }) => {
 				"https://orbital-signal-457502-f2.et.r.appspot.com/api/auth/login",
 				{
 					method: "POST",
-					headers: { "Content-Type": "application/json" },
+					headers: {
+						"Content-Type": "application/json",
+						"x-api-key": import.meta.env.VITE_API_KEY,
+					},
 					body: JSON.stringify({ email, password }),
 				}
 			);

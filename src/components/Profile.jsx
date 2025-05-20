@@ -27,7 +27,7 @@ const Profile = ({ user }) => {
 				<div className="text-center mb-6">
 					<div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-white/20">
 						<img
-							src="https://i.pravatar.cc/100?img=3"
+							src={userData.profile_image}
 							alt={userData.username}
 							className="w-full h-full object-cover"
 						/>

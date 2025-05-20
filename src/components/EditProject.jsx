@@ -16,7 +16,13 @@ const EditProject = () => {
 				if (!storedUser || !storedUser.id) return;
 
 				const res = await fetch(
-					`https://orbital-signal-457502-f2.et.r.appspot.com/api/projects/${storedUser.id}`
+					`${import.meta.env.VITE_API_URL}/api/projects/${storedUser.id}`,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							"x-api-key": import.meta.env.VITE_API_KEY,
+						},
+					}
 				);
 				const data = await res.json();
 
@@ -30,8 +36,9 @@ const EditProject = () => {
 					title: found.title || "",
 					category: found.category || "Select",
 					difficulty: found.difficulty || "Select",
-					status: found.status || "Select", 
+					status: found.status || "Select",
 					tags: found.tags || "",
+					image_url: found.image_url || "",
 					image: null,
 					description: found.description || "",
 					githubLink: found.github_link || "",
@@ -63,29 +70,52 @@ const EditProject = () => {
 		}));
 	};
 
+	const uploadImage = async (file) => {
+		const formData = new FormData();
+		formData.append("image", file);
+
+		const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
+			method: "POST",
+			headers: {
+				"x-api-key": import.meta.env.VITE_API_KEY,
+			},
+			body: formData,
+		});
+
+		const data = await res.json();
+		return data.image_url;
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		try {
+			let imageUrl = formData.image_url;
+
+			if (formData.image) {
+				imageUrl = await uploadImage(formData.image);
+			}
+
 			const payload = {
 				title: formData.title,
 				category: formData.category,
 				difficulty: formData.difficulty,
-				status: formData.status, // ✅ Include status in payload
+				status: formData.status,
 				tags: formData.tags,
-				image_url:
-					"https://i.pinimg.com/736x/e9/04/0c/e9040cb01fbc5f5d0de4c40725b255a7.jpg",
+				image_url: imageUrl,
 				description: formData.description,
 				github_link: formData.githubLink,
 				references: formData.references,
 			};
 
-			// const res = await fetch(`http://localhost:5001/api/projects/${id}`, {
 			const res = await fetch(
-				`https://orbital-signal-457502-f2.et.r.appspot.com//api/projects/${id}`,
+				`${import.meta.env.VITE_API_URL}/api/projects/${id}`,
 				{
 					method: "PUT",
-					headers: { "Content-Type": "application/json" },
+					headers: {
+						"Content-Type": "application/json",
+						"x-api-key": import.meta.env.VITE_API_KEY,
+					},
 					body: JSON.stringify(payload),
 				}
 			);
@@ -184,7 +214,6 @@ const EditProject = () => {
 					value={formData.githubLink}
 					onChange={handleChange}
 				/>
-
 				<InputField
 					label="References"
 					name="references"

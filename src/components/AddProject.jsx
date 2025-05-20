@@ -57,13 +57,18 @@ const AddProject = () => {
 		};
 
 		try {
-			const response = await fetch("http://localhost:5001/api/projects", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(payload),
-			});
+			// const response = await fetch("http://localhost:5001/api/projects", {
+			const response = await fetch(
+				"https://orbital-signal-457502-f2.et.r.appspot.com/api/projects",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"x-api-key": import.meta.env.VITE_API_KEY,
+					},
+					body: JSON.stringify(payload),
+				}
+			);
 
 			const data = await response.json();
 

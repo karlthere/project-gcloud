@@ -9,8 +9,11 @@ import {
 	registerUser, // Fungsi untuk mendaftarkan user baru
 	loginUser, // Fungsi untuk login user dengan email & password
 	changePassword, // Fungsi untuk mengganti password user
-	updateProfile, // Fungsi untuk mengubah data profil user (username, email, password)
+	updateProfile,
+	getAllUsers, // Fungsi untuk mengubah data profil user (username, email, password)
 } from "../controllers/authController.js";
+
+router.get("/users", getAllUsers); // GET /api/auth/users
 
 // Route: POST /register
 // Menangani registrasi user baru

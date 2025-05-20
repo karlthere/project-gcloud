@@ -1,19 +1,64 @@
 /** @format */
-// Memberi tahu tool formatter (seperti Prettier) agar file ini diformat otomatis
-
 /* global process */
-// Menandakan bahwa variabel `process` adalah variabel global (dari Node.js)
 
-import express from "express"; // Import framework Express.js
-import dotenv from "dotenv"; // Import dotenv untuk membaca file .env
-import cors from "cors"; // Import CORS untuk mengizinkan akses lintas domain
-import authRoutes from "./routes/authRoutes.js"; // Import rute untuk autentikasi
-import projectRoutes from "./routes/projectRoutes.js"; // Import rute untuk project CRUD
+import express from "express";
+import dotenv from "dotenv";
+import authRoutes from "./routes/authRoutes.js";
+import projectRoutes from "./routes/projectRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
-dotenv.config(); // Membaca file .env dan mengisi variabel environment ke process.env
+dotenv.config();
 
-const app = express(); // Membuat instance dari aplikasi Express
+const app = express();
 
+// ==========================
+// ✅ CORS Middleware 
+// ==========================
+app.use((req, res, next) => {
+	const allowedOrigins = [
+		"http://localhost:5173", // Dev frontend
+		// "https://your-production-frontend-url.com", // 
+	];
+
+	const origin = req.headers.origin;
+	if (allowedOrigins.includes(origin)) {
+		res.setHeader("Access-Control-Allow-Origin", origin);
+	}
+
+	res.setHeader(
+		"Access-Control-Allow-Methods",
+		"GET, POST, PUT, DELETE, OPTIONS"
+	);
+	res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-api-key");
+
+	if (req.method === "OPTIONS") {
+		return res.sendStatus(200); // Preflight success
+	}
+
+	next();
+});
+
+// ==========================
+// ✅ Parse JSON Requests
+// ==========================
+app.use(express.json());
+
+// ==========================
+// 🔐 API Key Middleware
+// ==========================
+const API_KEY = process.env.API_KEY || "my-secret-api-key";
+
+app.use((req, res, next) => {
+	const userKey = req.headers["x-api-key"];
+	if (userKey !== API_KEY) {
+		return res.status(401).json({ message: "Unauthorized: Invalid API Key" });
+	}
+	next();
+});
+
+// ==========================
+// ✅ Routes
+// ==========================
 app.get("/", (req, res) => {
 	res.json({
 		success: true,
@@ -21,31 +66,31 @@ app.get("/", (req, res) => {
 	});
 });
 
-app.use(cors()); // Mengaktifkan CORS agar frontend bisa mengakses backend dari domain berbeda
-app.use(express.json()); // Middleware untuk parsing request body berformat JSON
-
-// Semua route yang dimulai dengan /api/auth akan diarahkan ke authRoutes
 app.use("/api/auth", authRoutes);
-
-// Semua route yang dimulai dengan /api/projects akan diarahkan ke projectRoutes
 app.use("/api/projects", projectRoutes);
+app.use("/api/upload", uploadRoutes);
 
-// Middleware untuk menangani rute yang tidak dikenali (404 Not Found)
+
+// ==========================
+// ❌ Fallback 404
+// ==========================
 app.use("*", (req, res) => {
-	res.status(404).json({ success: false, message: "Api url doesn't exist" });
+	res.status(404).json({ success: false, message: "API route not found." });
 });
 
-// Logging: Menampilkan semua route yang terdaftar di console (debugging tool)
+// ==========================
+// 🛠️ Debug Route Logging
+// ==========================
 app._router.stack.forEach((r) => {
 	if (r.route && r.route.path) {
 		console.log("Registered route:", r.route.path);
 	}
 });
 
-// Ambil PORT dari file .env, jika tidak ada gunakan 5001
+// ==========================
+// 🚀 Start Server
+// ==========================
 const PORT = process.env.PORT || 5001;
-
-// Jalankan server dan tampilkan alamat server di console
 app.listen(PORT, () => {
-	console.log(`Backend server running on http://localhost:${PORT}`);
+	console.log(`✅ Backend running at http://localhost:${PORT}`);
 });

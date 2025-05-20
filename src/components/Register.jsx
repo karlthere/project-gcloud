@@ -41,7 +41,10 @@ const Register = ({ setUser }) => {
 				"https://orbital-signal-457502-f2.et.r.appspot.com/api/auth/register",
 				{
 					method: "POST",
-					headers: { "Content-Type": "application/json" },
+					headers: {
+						"Content-Type": "application/json",
+						"x-api-key": import.meta.env.VITE_API_KEY,
+					},
 					body: JSON.stringify({
 						username: formData.username.trim(),
 						email: formData.email.trim().toLowerCase(),

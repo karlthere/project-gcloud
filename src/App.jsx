@@ -1,5 +1,4 @@
 /** @format */
-
 import { useEffect, useState } from "react";
 import {
 	BrowserRouter as Router,
@@ -7,6 +6,7 @@ import {
 	Route,
 	Navigate,
 } from "react-router-dom";
+
 import LayoutOne from "./layout/LayoutOne";
 import ProjectList from "./components/ProjectList";
 import ProjectDetail from "./components/ProjectDetail";
@@ -19,6 +19,10 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import PrivateRoute from "./components/PrivateRoute";
 import ChangePassword from "./components/ChangePassword";
+
+// ✅ Ambil dari .env (harus ada di Vite)
+const API_URL = import.meta.env.VITE_API_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const App = () => {
 	const [user, setUser] = useState(() => {
@@ -33,13 +37,21 @@ const App = () => {
 			if (!user || !user.id) return;
 
 			try {
-				const res = await fetch(
-					`http://localhost:5001/api/projects/${user.id}`
-				);
+				const res = await fetch(`${API_URL}/api/projects/${user.id}`, {
+					headers: {
+						"Content-Type": "application/json",
+						"x-api-key": API_KEY,
+					},
+				});
+
+				if (!res.ok) {
+					throw new Error(`Fetch failed: ${res.status}`);
+				}
+
 				const data = await res.json();
 				setProjects(data);
-			} catch (error) {
-				console.error("Failed to fetch projects:", error);
+			} catch (err) {
+				console.error("Failed to fetch projects:", err);
 			}
 		};
 
@@ -53,12 +65,14 @@ const App = () => {
 
 	const handleDeleteProject = async (projectId) => {
 		try {
-			const res = await fetch(
-				`http://localhost:5001/api/projects/${projectId}`,
-				{
-					method: "DELETE",
-				}
-			);
+			const res = await fetch(`${API_URL}/api/projects/${projectId}`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+					"x-api-key": API_KEY,
+				},
+			});
+
 			if (!res.ok) throw new Error("Delete failed");
 
 			alert("Project deleted successfully!");
