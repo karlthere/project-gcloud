@@ -17,8 +17,7 @@ const app = express();
 app.use((req, res, next) => {
 	const allowedOrigins = [
 		"http://localhost:5173", // Dev frontend
-		// "https://your-production-frontend-url.com", //
-		"https://project-gcloud.vercel.app/",
+		"https://project-gcloud.vercel.app",
 	];
 
 	const origin = req.headers.origin;
@@ -47,7 +46,7 @@ app.use(express.json());
 // ==========================
 // 🔐 API Key Middleware
 // ==========================
-const API_KEY = process.env.API_KEY || "my-secret-api-key";
+const API_KEY = process.env.API_KEY;
 
 app.use((req, res, next) => {
 	const userKey = req.headers["x-api-key"];
