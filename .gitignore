@@ -7,15 +7,16 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Build
 node_modules
 dist
 dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
@@ -23,12 +24,15 @@ dist-ssr
 *.sln
 *.sw?
 
-backend/.env
+# Env & Secrets
+.env
 **/.env
 *.env
-
+backend/.env
 backend/key.json
-backend/app.yaml
 key.json
 key(no).json
-.env
+
+# Deployment config
+backend/app.yaml
+backend/app.yaml
