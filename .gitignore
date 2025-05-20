@@ -36,3 +36,4 @@ key(no).json
 # Deployment config
 backend/app.yaml
 backend/app.yaml
+src/catatan.txt
