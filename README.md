@@ -100,7 +100,6 @@ API_KEY=...
 
 ## 📚 Future Improvements
 
-- Project filtering by tags
 - Markdown support in project notes
 - Team collaboration feature
 
