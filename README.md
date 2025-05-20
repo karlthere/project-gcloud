@@ -18,7 +18,8 @@ DevPath is a web-based application designed to help beginner and intermediate de
 - 📌 **CRUD Functionality** for Projects (Add, Edit, Delete)  
 - 🔒 **User Authentication** with secure password hashing  
 - 📁 **Image Upload** to Google Cloud Storage  
-- ☁️ **Deployed Backend** using Google Cloud App Engine  
+- ☁️ **Deployed Backend** using Google Cloud App Engine
+- ☁️ **Deployed Frontend** using Vercel
 - 🔐 **Protected Routes** via PrivateRoute system
 
 ---
