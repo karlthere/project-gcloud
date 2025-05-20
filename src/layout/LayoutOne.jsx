@@ -13,7 +13,7 @@ const LayoutOne = ({ setUser }) => {
 	};
 
 	return (
-		<div className="min-h-screen flex bg-gray-100 overflow-x-hidden">
+		<div className="min-h-screen flex bg-gray-900 overflow-x-hidden">
 			{/* Sidebar */}
 			<Sidebar
 				isOpen={sidebarOpen}
