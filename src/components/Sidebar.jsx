@@ -34,7 +34,7 @@ const Sidebar = ({ setUser }) => {
 			<div className="flex items-center mb-8">
 				<div className="w-32 h-16 flex items-center justify-center">
 					<img
-						src="/public/logo.png"
+						src="/logo.png"
 						alt="Logo"
 						className="w-full h-full object-contain"
 					/>

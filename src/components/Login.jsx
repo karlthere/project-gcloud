@@ -46,7 +46,7 @@ const Login = ({ setUser }) => {
 			{/* LEFT  */}
 			<div className="hidden md:flex w-1/2 h-screen">
 				<img
-					src="/public/login.png"
+					src="/login.png"
 					alt="DevPath Login Illustration"
 					className="w-full h-full object-cover"
 				/>
