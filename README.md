@@ -109,7 +109,7 @@ API_KEY=...
 
 **Karlthere @ DevPath**  
 Feel free to connect or give feedback!  
-📬 [skarlina180@gmail.com]
+📬 [kiees.student@gmail.com]
 
 ---
 
