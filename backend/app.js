@@ -12,12 +12,13 @@ dotenv.config();
 const app = express();
 
 // ==========================
-// ✅ CORS Middleware 
+// ✅ CORS Middleware
 // ==========================
 app.use((req, res, next) => {
 	const allowedOrigins = [
 		"http://localhost:5173", // Dev frontend
-		// "https://your-production-frontend-url.com", // 
+		// "https://your-production-frontend-url.com", //
+		"https://project-gcloud.vercel.app/",
 	];
 
 	const origin = req.headers.origin;
@@ -69,7 +70,6 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/upload", uploadRoutes);
-
 
 // ==========================
 // ❌ Fallback 404
