@@ -94,7 +94,7 @@ API_KEY=...
 
 ## 📸 Demo
 
-> Add a link to a live deployed site or a Loom video demo if available.
+> [Add a link to a live deployed site or a Loom video demo if available.](https://youtu.be/BIf221nMXSE?si=nnPZicEIueRfnxCi)
 
 ---
 
